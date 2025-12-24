@@ -90,7 +90,13 @@ if command -v apt >/dev/null 2>&1; then
 
 if command -v dnf >/dev/null 2>&1; then
 
-    # docker installation script will be included in the future --need-help
+    sudo dnf install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+    sudo dnf config-manager setopt fedora-cisco-openh264.enabled=1
+    sudo dnf swap ffmpeg-free ffmpeg --allowerasing
+    sudo dnf update @multimedia --setopt="install_weak_deps=False" --exclude=PackageKit-gstreamer-plugin
+    sudo dnf install libavcodec-freeworld
+    sudo dnf install 'libdvdcss'
+    sudo dnf install 'libva-intel-media-driver'
 
 if command -v pacman >dev/null 2>&1; then 
 
