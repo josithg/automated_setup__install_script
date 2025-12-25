@@ -12,6 +12,7 @@ if command -v apt >/dev/null 2>&1; then
 
     sudo apt autoremove -y
     sudo apt install -y flatpak zsh git go ubuntu-restricted-extras 
+fi
 
 elif command -v dnf >/dev/null 2>&1; then
 
@@ -97,11 +98,12 @@ if command -v dnf >/dev/null 2>&1; then
     sudo dnf install libavcodec-freeworld
     sudo dnf install 'libdvdcss'
     sudo dnf install 'libva-intel-media-driver'
+fi
 
 if command -v pacman >dev/null 2>&1; then 
 
     # dokcer installation script will be included in the future --need-help
-
+fi
 # Things to be added  
     # Manual type of yes in oh-my-zsh
     # ROS2 docker installation script for Arch and Fedora 
