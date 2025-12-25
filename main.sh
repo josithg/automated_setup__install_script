@@ -101,7 +101,7 @@ if command -v dnf >/dev/null 2>&1; then
     sudo dnf install 'libva-intel-media-driver'
 fi
 
-if command -v pacman >dev/null 2>&1; then 
+if command -v pacman >/dev/null 2>&1; then 
 
     # dokcer installation script will be included in the future --need-help
 fi
