@@ -12,7 +12,6 @@ if command -v apt >/dev/null 2>&1; then
 
     sudo apt autoremove -y
     sudo apt install -y flatpak zsh git go ubuntu-restricted-extras 
-fi
 
 elif command -v dnf >/dev/null 2>&1; then
 
@@ -26,6 +25,7 @@ elif command -v pacman >/dev/null 2>&1; then
 else
     echo "No supported package manager found"
     exit 1
+fi
 
 flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 
@@ -88,6 +88,7 @@ if command -v apt >/dev/null 2>&1; then
     sudo apt install ros-jazzy-desktop
     
     source /opt/ros/jazzy/setup.zsh
+fi 
 
 if command -v dnf >/dev/null 2>&1; then
 
