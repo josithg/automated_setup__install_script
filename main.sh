@@ -35,7 +35,7 @@ flatpak install -y flathub app.zen_browser.zen
 
 curl -f https://zed.dev/install.sh | sh
 
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" # yes should be typed manually 
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" 
 
 git clone https://github.com/zsh-users/zsh-autosuggestions.git $ZSH_CUSTOM/plugins/zsh-autosuggestions
 
@@ -106,8 +106,7 @@ if command -v pacman >/dev/null 2>&1; then
     # dokcer installation script will be included in the future --need-help
 fi
 # Things to be added  
-    # Manual type of yes in oh-my-zsh
     # ROS2 docker installation script for Arch and Fedora 
-    # Multimedia codecs (non-free H.265 H.264)
+    # Multimedia codecs (non-free H.265 H.264) for arch 
 
 
