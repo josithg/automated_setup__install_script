@@ -12,15 +12,51 @@ if command -v apt >/dev/null 2>&1; then
 
     sudo apt autoremove -y
     sudo apt install -y flatpak zsh git go ubuntu-restricted-extras 
+    
+    locale  # check for UTF-8
+    sudo apt update && sudo apt install locales
+    sudo locale-gen en_US en_US.UTF-8
+    sudo update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
+    export LANG=en_US.UTF-8
+    locale  # verify settings
+
+    sudo apt install software-properties-common
+    sudo add-apt-repository universe
+
+    sudo apt update && sudo apt install curl -y
+
+    export ROS_APT_SOURCE_VERSION=$(curl -s https://api.github.com/repos/ros-infrastructure/ros-apt-source/releases/latest | grep -F "tag_name" | awk -F\" '{print $4}')
+    
+    curl -L -o /tmp/ros2-apt-source.deb "https://github.com/ros-infrastructure/ros-apt-source/releases/download/${ROS_APT_SOURCE_VERSION}/ros2-apt-source_${ROS_APT_SOURCE_VERSION}.$(. /etc/os-release && echo ${UBUNTU_CODENAME:-${VERSION_CODENAME}})_all.deb"
+    
+    sudo dpkg -i /tmp/ros2-apt-source.deb
+    sudo apt update && sudo apt install ros-dev-tools #optional
+
+    sudo apt update
+    sudo apt upgrade 
+
+    sudo apt install ros-jazzy-desktop
+    
+    source /opt/ros/jazzy/setup.zsh
+    
 
 elif command -v dnf >/dev/null 2>&1; then
 
     sudo dnf update -y
     sudo dnf install -y firefox tree neovim neofetch flatpak zsh git go vlc
+    
+    sudo dnf install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+    sudo dnf config-manager setopt fedora-cisco-openh264.enabled=1
+    sudo dnf swap ffmpeg-free ffmpeg --allowerasing
+    sudo dnf update @multimedia --setopt="install_weak_deps=False" --exclude=PackageKit-gstreamer-plugin
+    sudo dnf install libavcodec-freeworld
+    sudo dnf install 'libdvdcss'
+    sudo dnf install 'libva-intel-media-driver'
 
 elif command -v pacman >/dev/null 2>&1; then
 
     sudo pacman -Syu --noconfirm fastfetch firefox tree neovim flatpak zsh go 
+    sudo pacman -Syu vlc-plugins-all #H.265 and H.264 codecs
 
 else
     echo "No supported package manager found"
@@ -61,52 +97,8 @@ source $ZSH/oh-my-zsh.sh
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 DATA
 
-if command -v apt >/dev/null 2>&1; then
-    
-    locale  # check for UTF-8
-    sudo apt update && sudo apt install locales
-    sudo locale-gen en_US en_US.UTF-8
-    sudo update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
-    export LANG=en_US.UTF-8
-    locale  # verify settings
-
-    sudo apt install software-properties-common
-    sudo add-apt-repository universe
-
-    sudo apt update && sudo apt install curl -y
-
-    export ROS_APT_SOURCE_VERSION=$(curl -s https://api.github.com/repos/ros-infrastructure/ros-apt-source/releases/latest | grep -F "tag_name" | awk -F\" '{print $4}')
-    
-    curl -L -o /tmp/ros2-apt-source.deb "https://github.com/ros-infrastructure/ros-apt-source/releases/download/${ROS_APT_SOURCE_VERSION}/ros2-apt-source_${ROS_APT_SOURCE_VERSION}.$(. /etc/os-release && echo ${UBUNTU_CODENAME:-${VERSION_CODENAME}})_all.deb"
-    
-    sudo dpkg -i /tmp/ros2-apt-source.deb
-    sudo apt update && sudo apt install ros-dev-tools #optional
-
-    sudo apt update
-    sudo apt upgrade 
-
-    sudo apt install ros-jazzy-desktop
-    
-    source /opt/ros/jazzy/setup.zsh
-fi 
-
-if command -v dnf >/dev/null 2>&1; then
-
-    sudo dnf install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
-    sudo dnf config-manager setopt fedora-cisco-openh264.enabled=1
-    sudo dnf swap ffmpeg-free ffmpeg --allowerasing
-    sudo dnf update @multimedia --setopt="install_weak_deps=False" --exclude=PackageKit-gstreamer-plugin
-    sudo dnf install libavcodec-freeworld
-    sudo dnf install 'libdvdcss'
-    sudo dnf install 'libva-intel-media-driver'
-fi
-
-if command -v pacman >/dev/null 2>&1; then 
-
-    # dokcer installation script will be included in the future --need-help
-fi
 # Things to be added  
     # ROS2 docker installation script for Arch and Fedora 
-    # Multimedia codecs (non-free H.265 H.264) for arch 
+   
 
 
